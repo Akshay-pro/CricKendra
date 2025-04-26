@@ -20,8 +20,36 @@ export const matchesApi = apiSlice.injectEndpoints({
                 method: "GET",
             }),
         }),
+
+        getMatchSummary: builder.query({
+            query: (matchId) => `/matches/${matchId}/summary`,
+        }),
+
+        getMatchScorecard: builder.query({
+            query: (matchId) => `/matches/${matchId}/full-scorecard`,
+        }),
+
+        getMatchSquad: builder.query({
+            query: (matchId) => `/matches/${matchId}/squads`,
+        }),
+        getMatchInningCommentary: builder.query({
+            query: ({matchId, inningsId}) => {
+              console.log('matchId:', matchId);
+              console.log('inningsId:', inningsId);
+          
+              return `/matches/${matchId}/innings/${inningsId}/commentary`;
+            },
+          }),
     }),
     overrideExisting: false,
 });
 
-export const { useGetCitiesQuery, useGetMatchFormatQuery, useGetMatchLevelQuery } = matchesApi;
+export const {
+    useGetCitiesQuery,
+    useGetMatchFormatQuery,
+    useGetMatchLevelQuery,
+    useGetMatchSummaryQuery,
+    useGetMatchScorecardQuery,
+    useGetMatchSquadQuery,
+    useGetMatchInningCommentaryQuery
+} = matchesApi;

@@ -36,21 +36,24 @@ import Link from "next/link";
 const data = [
     {
         id: "1",
-        name: "India",
-        level: "International",
-        shortName: "Ind",
+        name: "Virat Kohli",
+        role: "Batsman",
+        nationality: "Indian",
+        dob: "23/03/1984"
     },
     {
-        id: "2",
-        name: "Australia",
-        level: "International",
-        shortName: "Aus",
+        id: "1",
+        name: "Rohit Sharma",
+        role: "Batsman",
+        nationality: "Indian",
+        dob: "25/02/1983"
     },
     {
-        id: "3",
-        name: "New Zealand",
-        level: "International",
-        shortName: "NZ",
+        id: "1",
+        name: "Jasprit Bumrah",
+        role: "Bowler",
+        nationality: "Indian",
+        dob: "03/08/1994"
     },
 ];
 
@@ -81,13 +84,13 @@ export const columns = [
     },
     {
         accessorKey: "name",
-        header: "Team Name",
+        header: "Player Name",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
     {
-        accessorKey: "level",
+        accessorKey: "role",
         header: ({ column }) => {
             return (
                 <Button
@@ -97,21 +100,30 @@ export const columns = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Playing Level
+                    Playing Role
                     <ArrowUpDown />
                 </Button>
             );
         },
         cell: ({ row }) => (
-            <div className="lowercase text-left">{row.getValue("level")}</div>
+            <div className="text-left">{row.getValue("role")}</div>
         ),
     },
     {
-        accessorKey: "shortName",
-        header: "Short Name",
+        accessorKey: "nationality",
+        header: "Nationality",
+        cell: ({ row }) => (
+            <div className="text-left">
+                {row.getValue("nationality")}
+            </div>
+        ),
+    },
+    {
+        accessorKey: "dob",
+        header: "Date of Birth",
         cell: ({ row }) => (
             <div className="lowercase text-left">
-                {row.getValue("shortName")}
+                {row.getValue("dob")}
             </div>
         ),
     },
@@ -170,7 +182,7 @@ export default function Players() {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Enter Team Name..."
+                    placeholder="Enter Player Name..."
                     value={table.getColumn("name")?.getFilterValue() ?? ""}
                     onChange={(event) =>
                         table

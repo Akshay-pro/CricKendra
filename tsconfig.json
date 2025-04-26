@@ -33,7 +33,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/dashboard/layout.jsx", "app/dashboard/teams/page.jsx", "redux/features/api/apiSlice.js", "app/dashboard/players/add-player/page.jsx", "app/dashboard/venue/host-nation/page.jsx", "app/dashboard/venue/ground/page.jsx", "app/dashboard/venue/continent/page.jsx", "app/dashboard/venue/city/page.jsx", "app/dashboard/matches/tour/page.jsx"  ],
+, "app/dashboard/layout.jsx", "app/dashboard/teams/page.jsx", "redux/features/api/apiSlice.js", "app/dashboard/players/add-player/page.jsx", "app/dashboard/venue/host-nation/page.jsx", "app/dashboard/venue/ground/page.jsx", "app/dashboard/venue/continent/page.jsx", "app/dashboard/venue/city/page.jsx", "app/dashboard/matches/tour/page.jsx", "app/(home)/layout.jsx", "app/(home)/matches/page.jsx", "app/(home)/matches/[matchId]/summary/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

@@ -2,10 +2,8 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div>
-        
-    </div>
+    <div>Get all matches</div>
   )
 }
 
-export default page;
+export default page

@@ -18,12 +18,33 @@ import {
 } from "@/components/ui/form";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useGetContinentsQuery } from "@/redux/features/venue/venueApi";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
 
 export default function AddHostNationModal() {
+    const { data: { data: continentData, success: continentSuccess } = {} } =
+        useGetContinentsQuery();
+    const [selectedContinentId, setSelectedContinentId] = useState(null);
 
+    console.log(continentData);
     const form = useForm({
-        defaultValues: {},
+        defaultValues: {
+            hostNationName: "",
+            continent_id: 0,
+        },
     });
+
+    const handleContinentChange = (value) => {
+        console.log(value);
+        setSelectedContinentId(value);
+    };
 
     function onSubmit(values) {
         console.log(values);
@@ -33,7 +54,7 @@ export default function AddHostNationModal() {
         <Dialog>
             <DialogTrigger asChild>
                 <Button className="ml-auto">
-                    <Plus /> Add Host Nation 
+                    <Plus /> Add Host Nation
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px]">
@@ -57,14 +78,49 @@ export default function AddHostNationModal() {
                                 </FormItem>
                             )}
                         />
-                         <FormField
+                        <FormField
                             control={form.control}
-                            name="continentId"
+                            name="continent_id"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Continent Name</FormLabel>
+                                    <FormLabel>Continent</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Asia" {...field} />
+                                        <Select
+                                            {...field}
+                                            value={selectedContinentId}
+                                            onValueChange={(value) => {
+                                                field.onChange(value);
+                                                handleContinentChange(value);
+                                            }}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Continent">
+                                                    {continentData.find(
+                                                        (continent) =>
+                                                            continent.id ==
+                                                            selectedContinentId
+                                                    )?.name ||
+                                                        "Select a continent"}
+                                                </SelectValue>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {continentSuccess &&
+                                                    continentData.map(
+                                                        (continent, index) => (
+                                                            <SelectItem
+                                                                value={
+                                                                    continent.id
+                                                                }
+                                                                key={
+                                                                    continent.id
+                                                                }
+                                                            >
+                                                                {continent.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                            </SelectContent>
+                                        </Select>
                                     </FormControl>
                                 </FormItem>
                             )}

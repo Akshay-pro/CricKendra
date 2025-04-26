@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
                         defaultTheme="system"
                         enableSystem
                     >
-                        {children}
+                        {children}    
                         <Toaster />
                     </NextThemeProvider>
                 </Providers>

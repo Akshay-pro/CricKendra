@@ -8,8 +8,8 @@ export const navItemsData = [
         url: "/",
     },
     {
-        name: "Teams",
-        url: "/teams",
+        name: "Matches",
+        url: "/matches",
     },
     {
         name: "News",
@@ -48,7 +48,7 @@ const NavItems = ({ activeItem, isMobile }) => {
                             href={"/"}
                             className={`text-[20px] font-Poppins font-[500] text-black dark:text-white`}
                         >
-                            Learning Hub
+                            Crickendra
                         </Link>
                     </div>
                     {navItemsData &&

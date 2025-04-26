@@ -29,17 +29,40 @@ import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useCreateContinentMutation } from "@/redux/features/venue/venueApi";
+import { toast } from "@/hooks/use-toast";
+import { redirect } from "next/navigation";
 
 export default function AddContinentModal() {
 
+    const [createContinent, {isSuccess, isLoading, error}] = useCreateContinentMutation();
+    
     const form = useForm({
         defaultValues: {},
     });
 
     function onSubmit(values) {
-        console.log(values);
+        createContinent(values);
     }
 
+    useEffect(() => {
+        console.log(isSuccess)
+        if (isSuccess) {
+            toast({
+                description: "Continent created successfully!",
+                variant: "success",
+                duration: 5000,
+            });
+
+            redirect("/dashboard/venue/continent");
+        }
+
+        if (error) {
+            toast({
+                description: error,
+            });
+        }
+    }, [isLoading, error, isSuccess]);
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -58,7 +81,7 @@ export default function AddContinentModal() {
                     >
                         <FormField
                             control={form.control}
-                            name="continentName"
+                            name="name"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Continent Name</FormLabel>
