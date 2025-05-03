@@ -33,13 +33,10 @@ export const matchesApi = apiSlice.injectEndpoints({
             query: (matchId) => `/matches/${matchId}/squads`,
         }),
         getMatchInningCommentary: builder.query({
-            query: ({matchId, inningsId}) => {
-              console.log('matchId:', matchId);
-              console.log('inningsId:', inningsId);
-          
-              return `/matches/${matchId}/innings/${inningsId}/commentary`;
+            query: ({ matchId, inningsId }) => {
+                return `/matches/${matchId}/innings/${inningsId}/commentary`;
             },
-          }),
+        }),
     }),
     overrideExisting: false,
 });

@@ -7,8 +7,6 @@ const MatchHeader = ({ matchId, lastInningIdFunction}) => {
     // const { matchId } = React.use(params);
 
     const [matchHeader, setMatchHeader] = useState([]);
-    const [scorecardSummary, setScorecardSummary] = useState([]);
-    const [latestCommentary, setLatestCommentary] = useState([]);
     const [inningsScore, setInningsScore] = useState([]);
     const {
         data: matchData,
@@ -21,12 +19,6 @@ const MatchHeader = ({ matchId, lastInningIdFunction}) => {
         if (matchData) {
             if (matchData?.data?.match_header) {
                 setMatchHeader(matchData.data.match_header);
-            }
-            if (matchData?.data?.scorecard_summary) {
-                setScorecardSummary(matchData.data.scorecard_summary);
-            }
-            if (matchData?.data?.latest_commentary) {
-                setLatestCommentary(matchData.data.latest_commentary);
             }
         }
     }, [matchData]);
