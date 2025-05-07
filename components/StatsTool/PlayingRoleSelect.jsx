@@ -1,6 +1,12 @@
+import Link from "next/link";
 import React from "react";
 
-const PlayingRoleSelect = ({ handlePlayingRole, selectedRole }) => {
+const PlayingRoleSelect = ({
+    handlePlayingRole,
+    selectedRole,
+    playingFormat,
+    formatGender,
+}) => {
     const role_map = ["Batting", "Bowling", "Team"];
 
     return (
@@ -17,7 +23,13 @@ const PlayingRoleSelect = ({ handlePlayingRole, selectedRole }) => {
                             }`}
                             onClick={() => handlePlayingRole(role)}
                         >
-                            <a href="#">{role}</a>
+                            <Link
+                                href={`/stats/${role.toLowerCase()}?format=${playingFormat}&is_male=${formatGender}`}
+                                className="text-blue-500 underline"
+                            >
+                                {role}
+                            </Link>
+                            {/* <Link href="#">{role}</Link> */}
                         </li>
                     ))}
                 </ul>
