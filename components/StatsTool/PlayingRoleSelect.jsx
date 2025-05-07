@@ -24,7 +24,7 @@ const PlayingRoleSelect = ({
                             onClick={() => handlePlayingRole(role)}
                         >
                             <Link
-                                href={`/stats/${role.toLowerCase()}?format=${playingFormat}&is_male=${formatGender}`}
+                                href={`/stats/${role.toLowerCase()}?playing_format=${playingFormat}&is_male=${formatGender}`}
                                 className="text-blue-500 underline"
                             >
                                 {role}

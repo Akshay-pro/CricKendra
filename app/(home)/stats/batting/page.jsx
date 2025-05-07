@@ -16,7 +16,7 @@ const page = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     
-    const playingFormat = searchParams.get("format");
+    const playingFormat = searchParams.get("playing_format");
     const formatGender = searchParams.get("is_male");
     const playingRole = pathname.split("/").pop();
 

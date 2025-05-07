@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const PlayingFormatSelect = ({ handlePlayingFormat, selectedFormat }) => {
@@ -17,7 +18,12 @@ const PlayingFormatSelect = ({ handlePlayingFormat, selectedFormat }) => {
                             }`}
                             onClick={() => handlePlayingFormat(format)}
                         >
-                            <a href="#">{format}</a>
+                            <Link
+                                href={`/stats?playing_format=${format}`}
+                                className="text-white-500"
+                            >
+                                {format}
+                            </Link>
                         </li>
                     ))}
                 </ul>
