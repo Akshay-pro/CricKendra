@@ -116,7 +116,7 @@ export default function CategoryPage() {
             },
         ],
 
-        matchTotals: [
+        "match-totals": [
             { key: "start_date", label: "Date" },
             { key: "match_id", label: "Match ID" },
             { key: "batter_name", label: "Batter" },
@@ -130,7 +130,7 @@ export default function CategoryPage() {
             },
         ],
 
-        series: [
+        "series": [
             { key: "series_name", label: "Series" },
             { key: "series_season", label: "Season" },
             { key: "batter_name", label: "Batter" },
@@ -141,7 +141,7 @@ export default function CategoryPage() {
             },
         ],
 
-        tournaments: [
+        "tournaments": [
             { key: "tournament_name", label: "Tournament" },
             { key: "batter_name", label: "Batter" },
             {
@@ -151,7 +151,7 @@ export default function CategoryPage() {
             },
         ],
 
-        grounds: [
+        "grounds": [
             { key: "ground_name", label: "Ground" },
             { key: "batter_name", label: "Batter" },
             {
@@ -171,7 +171,7 @@ export default function CategoryPage() {
             },
         ],
 
-        opposition: [
+        "oppositions": [
             { key: "opposition_team_name", label: "Opposition" },
             { key: "batter_name", label: "Batter" },
             {
@@ -181,7 +181,7 @@ export default function CategoryPage() {
             },
         ],
 
-        year: [
+        years: [
             { key: "year", label: "Year" },
             { key: "batter_name", label: "Batter" },
             {
@@ -191,7 +191,7 @@ export default function CategoryPage() {
             },
         ],
 
-        season: [
+        seasons: [
             { key: "season", label: "Season" },
             { key: "batter_name", label: "Batter" },
             {
