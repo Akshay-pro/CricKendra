@@ -400,8 +400,8 @@ const page = () => {
                         >
                             <option value="">All Types</option>
                             {dismissalTypes &&
-                                dismissalTypes?.data.map((dismissType) => (
-                                    <option value={dismissType}>
+                                dismissalTypes?.data?.map((dismissType, index) => (
+                                    <option value={dismissType} key={index}>
                                         {dismissType}
                                     </option>
                                 ))}
@@ -549,8 +549,9 @@ const page = () => {
                             </option>
 
                             {viewFormat === "overall" &&
-                                groupFigureBy.map((figure) => (
+                                groupFigureBy?.map((figure, index) => (
                                     <option
+                                        key={index}
                                         value={figure.value}
                                         selected={
                                             selectedFigure === figure.value
@@ -579,8 +580,8 @@ const page = () => {
                         >
                             <option selected>None</option>
 
-                            {resultQualifiationFilter.map((filter) => (
-                                <option value={filter.value}>
+                            {resultQualifiationFilter?.map((filter, index) => (
+                                <option value={filter.value} key={index}>
                                     {filter.name}
                                 </option>
                             ))}
@@ -626,8 +627,8 @@ const page = () => {
                             {...register("sort_by")}
                             defaultValue="runs_scored"
                         >
-                            {supportedSortingFields.map((sort) => (
-                                <option value={sort.value}>{sort.name}</option>
+                            {supportedSortingFields?.map((sort, index) => (
+                                <option key={index} value={sort.value}>{sort.name}</option>
                             ))}
                         </select>
 

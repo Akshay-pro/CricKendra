@@ -11,8 +11,8 @@ const CommonStatsForm = ({ filterOptionData, register }) => {
                 <select className="w-1/3 py-2 px-2 border border-blue-500 rounded-sm" {...register("primary_team")} defaultValue="">
                     <option value="">All Teams</option>
                     {filterOptionData &&
-                        filterOptionData?.primary_teams.map((team) => (
-                            <option value={team.id}>{team.name}</option>
+                        filterOptionData?.primary_teams?.map((team) => (
+                            <option key={team.id} value={team.id}>{team.name}</option>
                         ))}
                 </select>
 
@@ -28,8 +28,8 @@ const CommonStatsForm = ({ filterOptionData, register }) => {
                 <select className="w-1/3 py-2 px-2 border border-blue-500 rounded-sm"  {...register("opposition_team")} defaultValue="">
                     <option value="">All Teams</option>
                     {filterOptionData &&
-                        filterOptionData?.opposition_teams.map((team) => (
-                            <option value={team.id}>{team.name}</option>
+                        filterOptionData?.opposition_teams?.map((team) => (
+                            <option  key={team.id} value={team.id}>{team.name}</option>
                         ))}
                 </select>
 
@@ -65,8 +65,8 @@ const CommonStatsForm = ({ filterOptionData, register }) => {
                 <select className="w-1/3 py-2 px-2 border border-blue-500 rounded-sm" {...register("host_nation")} defaultValue="">
                     <option value="">All Nations</option>
                     {filterOptionData &&
-                        filterOptionData?.host_nations.map((nation) => (
-                            <option value={nation.id}>{nation.name}</option>
+                        filterOptionData?.host_nations?.map((nation) => (
+                            <option key={nation.id} value={nation.id}>{nation.name}</option>
                         ))}
                 </select>
 
@@ -83,7 +83,7 @@ const CommonStatsForm = ({ filterOptionData, register }) => {
                     <option value="">All Continents</option>
                     {filterOptionData &&
                         filterOptionData?.continents.map((continent) => (
-                            <option value={continent.id}>
+                            <option key={continent.id} value={continent.id}>
                                 {continent.name}
                             </option>
                         ))}
@@ -101,8 +101,9 @@ const CommonStatsForm = ({ filterOptionData, register }) => {
                 <select className="w-1/3 py-2 px-2 border border-blue-500 rounded-sm"     {...register("ground")} defaultValue="">
                     <option value="">All Grounds</option>
                     {filterOptionData &&
-                        filterOptionData?.grounds.map((ground) => (
+                        filterOptionData?.grounds?.map((ground) => (
                             <option
+                                key={ground.id}
                                 value={ground.id}
                             
                             >{`${ground.name}, ${ground.city_name}, ${ground.host_nation_name}`}</option>
@@ -149,8 +150,8 @@ const CommonStatsForm = ({ filterOptionData, register }) => {
                 <select className="w-1/3 py-2 px-2 border border-blue-500 rounded-sm" {...register("season")} defaultValue={""}>
                     <option value="">All Season</option>
                     {filterOptionData &&
-                        filterOptionData?.seasons.map((season) => (
-                            <option value={season}  >{season}</option>
+                        filterOptionData?.seasons?.map((season, index) => (
+                            <option key={index} value={season}>{season}</option>
                         ))}
                 </select>
 
@@ -166,8 +167,9 @@ const CommonStatsForm = ({ filterOptionData, register }) => {
                 <select className="w-1/3 py-2 px-2 border border-blue-500 rounded-sm"  {...register("series")} defaultValue="">
                     <option value="">All Series</option>
                     {filterOptionData &&
-                        filterOptionData?.series.map((series) => (
+                        filterOptionData?.series?.map((series) => (
                             <option
+                                key={series.id}
                                 value={series.id}
                                
                             >{`${series.name}, ${series.season}`}</option>
@@ -186,8 +188,8 @@ const CommonStatsForm = ({ filterOptionData, register }) => {
                 <select className="w-1/3 py-2 px-2 border border-blue-500 rounded-sm"  {...register("tournament")} defaultValue="">
                     <option value="">All Tournaments</option>
                     {filterOptionData &&
-                        filterOptionData?.tournaments.map((tournament) => (
-                            <option value={tournament.id}>
+                        filterOptionData?.tournaments?.map((tournament) => (
+                            <option key={tournament.id} value={tournament.id}>
                                 {tournament.name}
                             </option>
                         ))}
