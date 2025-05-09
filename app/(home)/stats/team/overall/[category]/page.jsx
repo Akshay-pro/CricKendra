@@ -9,10 +9,9 @@ export default function CategoryPage() {
     const router = useRouter();
     const pathname = usePathname();
 
-    
     const [queryObject, setQueryObject] = useState({});
     const [statsInfo, setStatsInfo] = useState([]);
-    
+
     const currentPage = parseInt(params.get("__page") || "1");
     const category = pathname.split("/").filter(Boolean).pop();
 
@@ -38,17 +37,14 @@ export default function CategoryPage() {
         setQueryObject(paramsObject);
     }, [searchParams]);
 
-
-    const {
-        data: statsData,
-    } = useGetStatsDataQuery(fullUrl);
+    const { data: statsData } = useGetStatsDataQuery(fullUrl);
     useEffect(() => {
         if (statsData?.data?.stats) {
             setStatsInfo(statsData?.data?.stats);
         }
     }, [statsData]);
     console.log(statsInfo);
-   
+
     if (!statsInfo || statsInfo.length === 0) {
         return <p>No data available</p>;
     }
@@ -64,140 +60,112 @@ export default function CategoryPage() {
         return `${startYear}-${endYear}`;
     }
 
-    const battingTableSchemaMap = {
+    const overallTeamTableSchemaMap = {
         common: [
             { key: "matches_played", label: "Matches" },
-            { key: "innings_batted", label: "Innings" },
-            { key: "runs_scored", label: "Runs" },
-            { key: "balls_faced", label: "Balls" },
-            { key: "not_outs", label: "NO" },
+            { key: "matches_won", label: "Won" },
+            { key: "matches_lost", label: "Lost" },
+            { key: "matches_tied", label: "Tied" },
+            { key: "matches_drawn", label: "Drawn" },
+            { key: "matches_no_result", label: "No Result" },
+            {
+                key: "win_loss_ratio",
+                label: "W/L Ratio",
+                format: (v) => (typeof v === "number" ? v.toFixed(2) : "-"),
+            },
+            { key: "innings_count", label: "Innings" },
+            { key: "total_runs", label: "Runs" },
+            { key: "total_wickets", label: "Wickets" },
+            { key: "total_balls", label: "Balls" },
             {
                 key: "average",
-                label: "Average",
+                label: "Avg",
                 format: (v) => (typeof v === "number" ? v.toFixed(2) : "-"),
             },
             {
-                key: "strike_rate",
-                label: "Strike Rate",
+                key: "scoring_rate",
+                label: "SR",
                 format: (v) => (typeof v === "number" ? v.toFixed(2) : "-"),
             },
-            {
-                key: "highest_score",
-                label: "HS",
-                display: (row) =>
-                    row.highest_score === row.highest_not_out_score
-                        ? `${row.highest_score}*`
-                        : row.highest_score.toString(),
-            },
-            { key: "centuries", label: "100s" },
-            { key: "half_centuries", label: "50s" },
-            { key: "fifty_plus_scores", label: "50+" },
-            { key: "ducks", label: "Ducks" },
-            { key: "fours_scored", label: "4s" },
-            { key: "sixes_scored", label: "6s" },
+            { key: "highest_score", label: "Highest Score" },
+            { key: "lowest_score", label: "Lowest Score" },
         ],
-
-        batters: [
-            { key: "batter_name", label: "Batter" },
-            {
-                key: "teams_represented",
-                label: "Teams",
-                format: (v) => (Array.isArray(v) ? v.join(", ") : v ?? "-"),
-            },
-            {
-                key: "duration_span",
-                label: "Span",
-                format: (row) => formatDateSpan(row.min_date, row.max_date),
-            },
+        teams: [
+            { key: "team_name", label: "Team" },
+            { key: "min_start_date", label: "First Match" },
+            { key: "max_start_date", label: "Last Match" },
         ],
-
-        "team-innings": [
-            { key: "batting_team_name", label: "Team" },
-            { key: "players_count", label: "Players" },
-            { key: "min_date", label: "From" },
-            { key: "max_date", label: "To" },
+        players: [
+            { key: "player_name", label: "Player" },
+            { key: "teams_count", label: "Teams" },
+            { key: "min_start_date", label: "First Match" },
+            { key: "max_start_date", label: "Last Match" },
         ],
-
-        grounds: [
-            { key: "ground_name", label: "Ground" },
-            { key: "players_count", label: "Players" },
-            { key: "min_date", label: "From" },
-            { key: "max_date", label: "To" },
+        matches: [
+            { key: "team1_name", label: "Team 1" },
+            { key: "team2_name", label: "Team 2" },
+            { key: "city_name", label: "City" },
+            { key: "season", label: "Season" },
+            { key: "start_date", label: "Start Date" },
+            { key: "teams_count", label: "Teams" },
         ],
-
-        oppositions: [
-            { key: "opposition_team_name", label: "Opposition" },
-            { key: "players_count", label: "Players" },
-            { key: "min_date", label: "From" },
-            { key: "max_date", label: "To" },
-        ],
-
         series: [
             { key: "series_name", label: "Series" },
             { key: "series_season", label: "Season" },
-            { key: "players_count", label: "Players" },
-            { key: "min_date", label: "From" },
-            { key: "max_date", label: "To" },
+            { key: "teams_count", label: "Teams" },
         ],
-
         tournaments: [
             { key: "tournament_name", label: "Tournament" },
-            { key: "players_count", label: "Players" },
-            { key: "min_date", label: "From" },
-            { key: "max_date", label: "To" },
+            { key: "teams_count", label: "Teams" },
         ],
-
-        years: [
-            { key: "year", label: "Year" },
-            { key: "players_count", label: "Players" },
+        grounds: [
+            { key: "ground_name", label: "Ground" },
+            { key: "min_start_date", label: "First Match" },
+            { key: "max_start_date", label: "Last Match" },
+            { key: "teams_count", label: "Teams" },
         ],
-
-        seasons: [
-            { key: "season", label: "Season" },
-            { key: "players_count", label: "Players" },
-        ],
-
-        decades: [
-            { key: "decade", label: "Decade" },
-            { key: "players_count", label: "Players" },
-        ],
-
-        aggregate: [
-            { key: "players_count", label: "Players" },
-            { key: "min_date", label: "From" },
-            { key: "max_date", label: "To" },
+        "host-nations": [
+            { key: "host_nation_name", label: "Host Nation" },
+            { key: "min_start_date", label: "First Match" },
+            { key: "max_start_date", label: "Last Match" },
+            { key: "teams_count", label: "Teams" },
         ],
         continents: [
             { key: "continent_name", label: "Continent" },
-            { key: "players_count", label: "Players" },
-            { key: "min_date", label: "From" },
-            { key: "max_date", label: "To" },
+            { key: "min_start_date", label: "First Match" },
+            { key: "max_start_date", label: "Last Match" },
+            { key: "teams_count", label: "Teams" },
         ],
-
-        "host-nations": [
-            { key: "host_nation_name", label: "Host Nation" },
-            { key: "players_count", label: "Players" },
-            { key: "min_date", label: "From" },
-            { key: "max_date", label: "To" },
+        years: [
+            { key: "year", label: "Year" },
+            { key: "teams_count", label: "Teams" },
         ],
+        seasons: [
+            { key: "season", label: "Season" },
+            { key: "teams_count", label: "Teams" },
+        ],
+        decades: [
+            { key: "decade", label: "Decade" },
+            { key: "teams_count", label: "Teams" },
+        ],
+        aggregate: [{ key: "teams_count", label: "Teams" }],
     };
+
     console.log(category);
     const columns = [
-        ...(battingTableSchemaMap[category] || []),
-        ...battingTableSchemaMap.common.filter(
-          (commonCol) =>
-            !(battingTableSchemaMap[category] || []).some(
-              (catCol) => catCol.key === commonCol.key
-            )
+        ...(overallTeamTableSchemaMap[category] || []),
+        ...overallTeamTableSchemaMap.common.filter(
+            (commonCol) =>
+                !(overallTeamTableSchemaMap[category] || []).some(
+                    (catCol) => catCol.key === commonCol.key
+                )
         ),
-      ];
+    ];
 
     const handlePageChange = (newPage) => {
         params.set("__page", newPage);
         router.push(`?${params.toString()}`);
     };
-
-    
 
     return (
         <div style={{ overflowX: "auto" }}>
@@ -244,13 +212,11 @@ export default function CategoryPage() {
                                     key={key}
                                     className="border border-gray-300 p-2 text-left text-sm text-gray-700 whitespace-nowrap"
                                 >
-                                    {key === "highest_score"
-                                        ? display(row)
-                                        : key === "duration_span" && format
+                                    {key === "duration_span" && format
                                         ? format(row)
                                         : format
                                         ? format(row[key])
-                                        : row[key]?.toString() ?? "-"}
+                                        : row[key]?.toString() ?? "0"}
                                 </td>
                             ))}
                         </tr>
