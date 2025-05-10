@@ -14,43 +14,95 @@ const page = ({ params }) => {
         if (playerData?.data) {
             setPlayerOverview(playerData?.data);
             setStats({
-                odi: playerData?.data?.odi_stats,
-                t20i: playerData?.data?.t20i_stats,
-                t20: playerData?.data?.t20_stats,
-                lista: playerData?.data?.lista_stats,
+                ODI: playerData?.data?.odi_stats,
+                T20I: playerData?.data?.t20i_stats,
+                ListA: playerData?.data?.lista_stats,
+                T20: playerData?.data?.t20_stats,
             });
         }
     }, [playerData]);
 
-    const columns = [
-        { key: "balls_bowled", label: "Balls Bowled" },
+    const battingColumns = [
+        { key: "matches_played", label: "Matches" },
+        { key: "innings_batted", label: "Innings" },
+        { key: "not_outs", label: "Not Outs" },
+        { key: "runs_scored", label: "Runs Scored" },
         { key: "balls_faced", label: "Balls Faced" },
-        { key: "best_inn_fig_runs", label: "BIF (Runs)" },
-        { key: "best_inn_fig_wkts", label: "BIF (Wkts)" },
-        { key: "best_match_fig_runs", label: "BMF (Runs)" },
-        { key: "best_match_fig_wkts", label: "BMF (Wkts)" },
+        {
+            key: "highest_score",
+            label: "Highest Score",
+            format: (row) =>
+                row.is_highest_not_out
+                    ? `${row.highest_score}*`
+                    : row.highest_score.toString(),
+        },
+        {
+            key: "average",
+            label: "AVG",
+            format: (row) =>
+                (
+                    (row?.runs_scored * 100) /
+                    (row?.innings_batted - row?.not_outs)
+                ).toFixed(2),
+        },
+        {
+            key: "strike_rate",
+            label: "SR",
+            format: (row) =>
+                ((row?.runs_scored * 100) / row?.balls_faced).toFixed(2),
+        },
+
         { key: "centuries_scored", label: "100s" },
         { key: "fifties_scored", label: "50s" },
+        { key: "fours_scored", label: "4s" },
+        { key: "sixes_scored", label: "6s" },
+    ];
+
+    const bowlingColumns = [
+        { key: "matches_played", label: "Matches" },
+        { key: "innings_bowled", label: "Innings" },
+        { key: "balls_bowled", label: "Balls Bowled" },
+        { key: "runs_conceded", label: "Runs Conceded" },
+        { key: "wickets_taken", label: "Wickets" },
+        {
+            key: "average",
+            label: "AVG",
+            format: (row) =>
+                (row?.runs_conceded / row?.wickets_taken).toFixed(2),
+        },
+        {
+            key: "strike_rate",
+            label: "SR",
+            format: (row) =>
+                (row?.balls_bowled / row?.wickets_taken).toFixed(2),
+        },
+        {
+            key: "economy",
+            label: "ECO",
+            format: (row) =>
+                ((row?.runs_conceded / row?.balls_bowled) * 6).toFixed(2),
+        },
+        {
+            key: "best_inn_fig_runs",
+            label: "BBI",
+            format: (row) =>
+                `${row.best_inn_fig_runs}/${row.best_inn_fig_wkts}`,
+        },
+        {
+            key: "best_match_fig_runs",
+            label: "BBM",
+            format: (row) =>
+                `${row.best_match_fig_runs}/${row.best_match_fig_wkts}`,
+        },
         { key: "five_wkt_hauls", label: "5w" },
         { key: "four_wkt_hauls", label: "4w" },
-        { key: "fours_conceded", label: "4s Conceded" },
-        { key: "fours_scored", label: "4s Scored" },
-        { key: "highest_score", label: "Highest Score" },
-        { key: "innings_batted", label: "Inng. Batted" },
-        { key: "innings_bowled", label: "Inng. Bowled" },
-        { key: "is_highest_not_out", label: "HS (NO)" },
-        { key: "matches_played", label: "Matches Played" },
-        { key: "not_outs", label: "Not Outs" },
-        { key: "runs_conceded", label: "Runs Conceded" },
-        { key: "runs_scored", label: "Runs Scored" },
-        { key: "sixes_conceded", label: "Sixes Conceded" },
-        { key: "sixes_scored", label: "Sixes Scored" },
         { key: "ten_wkt_hauls", label: "10w" },
-        { key: "wickets_taken", label: "Wickets Taken" },
+        { key: "fours_conceded", label: "4s" },
+        { key: "sixes_conceded", label: "6s" },
     ];
     console.log(stats);
 
-     if (!stats) return <div>Loading...</div>; // Loading state
+    if (!stats) return <div>Loading...</div>; // Loading state
     return (
         <div>
             <PlayerTabs playerId={playerId} />
@@ -108,12 +160,17 @@ const page = ({ params }) => {
                         {" "}
                         <p>{playerOverview.full_name} Career Stats:</p>
                     </h4>
-    
+
                     <table className="min-w-full table-auto border-collapse">
-                        <thead>  
+                        <caption className="font-bold text-left bg-gray-600 text-white p-2">
+                            Batting
+                        </caption>
+                        <thead>
                             <tr>
-                              <th className="border border-gray-300 p-2 text-left text-sm font-medium text-gray-700">Format</th>
-                                {columns.map(({ key, label }) => (
+                                <th className="border border-gray-300 p-2 text-left text-sm font-medium text-gray-700">
+                                    Format
+                                </th>
+                                {battingColumns.map(({ key, label }) => (
                                     <th
                                         key={key}
                                         className="border border-gray-300 p-2 text-left text-sm font-medium text-gray-700"
@@ -124,23 +181,85 @@ const page = ({ params }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {["odi", "t20i", "t20", "lista"].map((format) => (
-                                <tr
-                                    key={format}
-                                    className="odd:bg-gray-50 even:bg-white"
-                                >
-                                    <td className="border border-gray-300 p-2 text-left text-sm text-gray-700 whitespace-nowrap capitalize">{format}</td>
-                                    {columns.map(({ key }) => (
-                                        <td
-                                            key={key}
-                                            className="border border-gray-300 p-2 text-left text-sm text-gray-700 whitespace-nowrap"
-                                        >
-                                            {stats[format][key]?.toString() ??
-                                                "-"}
+                            {["ODI", "T20I", "ListA", "T20"].map(
+                                (formatName) => (
+                                    <tr
+                                        key={formatName}
+                                        className="odd:bg-gray-50 even:bg-white"
+                                    >
+                                        <td className="border border-gray-300 p-2  font-bold text-left text-sm text-gray-700 whitespace-nowrap capitalize">
+                                            {formatName}
                                         </td>
-                                    ))}
-                                </tr>
-                            ))}
+                                        {battingColumns.map(
+                                            ({ key, format }) => (
+                                                <td
+                                                    key={key}
+                                                    className="border border-gray-300 p-2 text-left text-sm text-gray-700 whitespace-nowrap"
+                                                >
+                                                    {format
+                                                        ? format(
+                                                              stats[formatName]
+                                                          )
+                                                        : stats[formatName][
+                                                              key
+                                                          ]?.toString() ?? "-"}
+                                                </td>
+                                            )
+                                        )}
+                                    </tr>
+                                )
+                            )}
+                        </tbody>
+                    </table>
+
+                    <table className="min-w-full table-auto border-collapse my-4">
+                        <caption className="font-bold text-left bg-gray-600 text-white p-2">
+                            Bowling
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th className="border border-gray-300 p-2 text-left text-sm font-medium  text-gray-700">
+                                    Format
+                                </th>
+                                {bowlingColumns.map(({ key, label }) => (
+                                    <th
+                                        key={key}
+                                        className="border border-gray-300 p-2 text-left text-sm font-medium text-gray-700"
+                                    >
+                                        {label}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {["ODI", "T20I", "ListA", "T20"].map(
+                                (formatName) => (
+                                    <tr
+                                        key={formatName}
+                                        className="odd:bg-gray-50 even:bg-white"
+                                    >
+                                        <td className="border border-gray-300 p-2 text-left text-sm text-gray-700 font-bold whitespace-nowrap capitalize">
+                                            {formatName}
+                                        </td>
+                                        {bowlingColumns.map(
+                                            ({ key, format }) => (
+                                                <td
+                                                    key={key}
+                                                    className="border border-gray-300 p-2 text-left text-sm text-gray-700 whitespace-nowrap"
+                                                >
+                                                    {format
+                                                        ? format(
+                                                              stats[formatName]
+                                                          )
+                                                        : stats[formatName][
+                                                              key
+                                                          ]?.toString() ?? "0"}
+                                                </td>
+                                            )
+                                        )}
+                                    </tr>
+                                )
+                            )}
                         </tbody>
                     </table>
                 </div>
