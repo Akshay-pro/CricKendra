@@ -5,7 +5,7 @@ import SeriesTab from "@/components/series/SeriesTab";
 import SeriesResult from "./SeriesResult";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
-
+import ArticlesPage from "../../articles/ArticlesPage";
 const page = ({ params: asyncParams }) => {
     const { seriesId } = React.use(asyncParams);
 
@@ -100,8 +100,8 @@ const page = ({ params: asyncParams }) => {
                         </TabsContent>
                     </Tabs>
                 </div>
-                <div className="w-1/3 p-2 border">
-                      Articles          
+                <div className="w-1/3 p-4 border">
+                    <ArticlesPage />     
                 </div>
                 <div className="w-1/3 p-2">
                     <div className="top-batter-card shadow-md p-2 mb-2">
@@ -133,7 +133,7 @@ const page = ({ params: asyncParams }) => {
                                             </h2>
                                             <p className="text-[12px] text-[#646464] flex gap-5">
                                                 <span>{`Inning: ${batter?.innings_batted}`}</span>{" "}
-                                                <span>{`Average: ${batter?.average.toFixed(2)}`}</span>
+                                                <span>{`Average: ${batter?.average?.toFixed(2)}`}</span>
                                             </p>
                                         </div>
                                     </div>

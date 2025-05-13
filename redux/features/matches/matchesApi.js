@@ -37,6 +37,10 @@ export const matchesApi = apiSlice.injectEndpoints({
                 return `/matches/${matchId}/innings/${inningsId}/commentary`;
             },
         }),
+
+        getCompletedMatches: builder.query({
+            query: () => "/matches?match_state=completed",
+        }),
     }),
     overrideExisting: false,
 });
@@ -48,5 +52,6 @@ export const {
     useGetMatchSummaryQuery,
     useGetMatchScorecardQuery,
     useGetMatchSquadQuery,
-    useGetMatchInningCommentaryQuery
+    useGetMatchInningCommentaryQuery,
+    useGetCompletedMatchesQuery
 } = matchesApi;

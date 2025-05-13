@@ -31,7 +31,7 @@ const Header = ({ activeItem, setOpen, route, open, setRoute }) => {
                                 href={"/"}
                                 className={`text-[25px] font-Poppins font-[500] text-black dark:text-white`}
                             >
-                                Crickendra
+                                CricKendra
                             </Link>
                         </div>
                         <div className="flex items-center">

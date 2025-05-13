@@ -12,12 +12,12 @@ export const navItemsData = [
         url: "/matches",
     },
     {
-        name: "News",
+        name: "Players",
         url: "/players",
     },
     {
-        name: "Features",
-        url: "/players",
+        name: "Series",
+        url: "/series",
     },
 ];
 

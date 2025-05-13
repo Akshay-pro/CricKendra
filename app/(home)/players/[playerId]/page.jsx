@@ -5,6 +5,8 @@ import PlayerTabs from "@/components/Players/SinglePlayerTabs";
 const page = ({ params }) => {
     const [playerOverview, setPlayerOverview] = useState([]);
     const [stats, setStats] = useState(null);
+    const [playingFormat, setPlayingFormat] = useState(null);
+    const [playerGender, setPlayerGender] = useState(null);
     const { playerId } = React.use(params);
 
     const { data: playerData } = useGetPlayerByIdQuery(playerId);
@@ -19,6 +21,13 @@ const page = ({ params }) => {
                 ListA: playerData?.data?.lista_stats,
                 T20: playerData?.data?.t20_stats,
             });
+            if (playerData?.data?.test_stats) setPlayingFormat("TEST");
+            else if (playerData?.data?.odi_stats) setPlayingFormat("ODI");
+            else if (playerData?.data?.t20i_stats) setPlayingFormat("T20I");
+            else if (playerData?.data?.lista_stats) setPlayingFormat("LISTA");
+            else if (playerData?.data?.t20_stats) setPlayingFormat("T20");
+
+            setPlayerGender(playerData?.data?.is_male);
         }
     }, [playerData]);
 
@@ -105,7 +114,11 @@ const page = ({ params }) => {
     if (!stats) return <div>Loading...</div>; // Loading state
     return (
         <div>
-            <PlayerTabs playerId={playerId} />
+            <PlayerTabs
+                playerId={playerId}
+                playingFormat={playingFormat}
+                playerGender={playerGender}
+            />
 
             <div className="w-full shadow-md">
                 <div className="flex flex-wrap gap-10 p-8 border-b border-b-green-300">
@@ -115,27 +128,11 @@ const page = ({ params }) => {
                     </div>
                     <div className="w-[30%]">
                         <h2 className="font-bold">DOB</h2>
-                        <p>{playerOverview.full_name}</p>
+                        <p>{playerOverview.dob || "---"}</p>
                     </div>
                     <div className="w-[30%]">
-                        <h2 className="font-bold">Batting Position</h2>
-                        <p>{playerOverview.full_name}</p>
-                    </div>
-                    <div className="w-[30%]">
-                        <h2 className="font-bold">Bowling Style</h2>
-                        <p>{playerOverview.full_name}</p>
-                    </div>
-                    <div className="w-[30%]">
-                        <h2 className="font-bold">Playing Role</h2>
-                        <p>{playerOverview.full_name}</p>
-                    </div>
-                    <div className="w-[30%]">
-                        <h2 className="font-bold">Height</h2>
-                        <p>{playerOverview.full_name}</p>
-                    </div>
-                    <div className="w-[30%]">
-                        <h2 className="font-bold">Education</h2>
-                        <p>{playerOverview.full_name}</p>
+                        <h2 className="font-bold">Nationality</h2>
+                        <p>{playerOverview.nationality || "---"}</p>
                     </div>
                 </div>
 
@@ -145,11 +142,19 @@ const page = ({ params }) => {
                     </h4>
                     <div className="flex">
                         {playerOverview?.teams_represented?.map((team) => (
-                            <li key={team.id} className="font-bold w-1/2">
+                            <li key={team.id} className="font-bold w-1/2 text-gray-500">
                                 {team.name}
                             </li>
                         ))}
                     </div>
+                </div>
+                <div className="p-8 border-b ">
+                    <h4 className="mb-4 border-b border-t py-2 font-bold">
+                        Biography:
+                    </h4>
+                    <p className="">
+                        {playerOverview.biography || "Data Not Available"}
+                    </p>
                 </div>
 
                 <div

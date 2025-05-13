@@ -8,11 +8,11 @@ export const seriesApi = apiSlice.injectEndpoints({
         getSeriesMatches: builder.query({
             query: (seriesId) => `/series/${seriesId}/matches`,
         }),
+        getSeries: builder.query({
+            query: (page = 1) => `/series?__page=${page}`,
+        }),
     }),
     overrideExisting: false,
 });
 
-export const {
-    useGetSeriesByIdQuery,
-    useGetSeriesMatchesQuery
-} = seriesApi;
+export const { useGetSeriesByIdQuery, useGetSeriesMatchesQuery, useGetSeriesQuery } = seriesApi;

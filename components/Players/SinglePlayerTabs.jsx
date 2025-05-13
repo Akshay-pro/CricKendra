@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const PlayerTabs = ({ playerId }) => {
+const PlayerTabs = ({ playerId, playingFormat, playerGender }) => {
   const pathname = usePathname();
 
   const tabs = [
     { name: "Overview", href: `/players/${playerId}` },
-    { name: "Stats", href: `/stats/batting/summary?${playerId}` },
+    { name: "Stats", href: `/stats/batting/summary?playing_format=${playingFormat}&is_male=${playerGender}&batter=${playerId}` },
   ];
 
   return (
